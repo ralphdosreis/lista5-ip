@@ -1,52 +1,56 @@
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
-int funcao(char n, char string[])
+int compare(const void *a, const void *b)
 {
-  int i = 2;
-
-  while (string[i] != '\0')
-  {
-    if (string[i] == n)
-    {
-      return i;
-    }
-    i++;
-  }
-
-  return -1;
+  return (*(int *)a - *(int *)b);
 }
 
 int main()
 {
-  int n, aux, i;
-  // Ler qtd Loop
-  scanf("%d", &n);
-  getchar();
+  int N;
 
-  char string[500];
-  char procura;
+  scanf("%d", &N);
 
-  for (i = 0; i < n; i++)
+  if (N <= 1 || N > 1000)
   {
-    // Ler string
-    fgets(string, sizeof(string), stdin);
+    return 0;
+  }
 
-    // Separar primeiro caracter
-    procura = string[0];
-
-    // Vericar Toda a string e encontrar o caracter
-    aux = funcao(procura, string) - 2;
-
-    // Printagem do problema
-    if (aux != -3)
+  int matrix[N][N];
+  int i, j;
+  for (i = 0; i < N; i++)
+  {
+    for (j = 0; j < N; j++)
     {
-      printf("Caractere %c encontrado no indice %d da string.\n", procura, aux);
+      scanf("%d", &matrix[i][j]);
     }
-    else
+  }
+
+  for (j = 0; j < N; j++)
+  {
+    int column[N];
+
+    for (i = 0; i < N; i++)
     {
-      printf("Caractere %c nao encontrado.\n", procura);
+      column[i] = matrix[i][j];
     }
+
+    qsort(column, N, sizeof(int), compare);
+
+    for (i = 0; i < N; i++)
+    {
+      matrix[i][j] = column[i];
+    }
+  }
+
+  for (i = 0; i < N; i++)
+  {
+    for (j = 0; j < N; j++)
+    {
+      printf("%d ", matrix[i][j]);
+    }
+    printf("\n");
   }
 
   return 0;
